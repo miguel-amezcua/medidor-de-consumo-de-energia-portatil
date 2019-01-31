@@ -1,5 +1,6 @@
 from pyModbusTCP.client import ModbusClient
 from pyModbusTCP import utils
+from datetime import datetime
 import time
 import paho.mqtt.client as mqtt
 import json
@@ -13,23 +14,23 @@ c = ModbusClient()
 c.host(SERVER_HOST)
 c.port(SERVER_PORT)
 #c.debug(True)
-relog =1
+#relog =1
 
 if not c.is_open():
     if not c.open():
         print("conexion establecida con "+SERVER_HOST+":"+str(SERVER_PORT))
 
 if c.is_open():
-    print("antes de la vuelta", relog)
+   # print("antes de la vuelta", relog)
 
-    print("inicio del siclo")
+    #print("inicio del siclo")
     regs_list_1 = c.read_holding_registers(3021, 2)
     if regs_list_1:
         vAB = [utils.decode_ieee(f) for f in utils.word_list_to_long(regs_list_1)]
     regs_list_2 = c.read_holding_registers(3023, 2)
     if regs_list_2:
         vBC = [utils.decode_ieee(f) for f in utils.word_list_to_long(regs_list_2)]
-        print("valor de retorno 2 vBC" + str(vBC))
+  #      print("valor de retorno 2 vBC" + str(vBC))
     regs_list_3 = c.read_holding_registers(3025, 2)
     if regs_list_3:
         vCA = [utils.decode_ieee(f) for f in utils.word_list_to_long(regs_list_3)]
@@ -100,7 +101,7 @@ if c.is_open():
     regs_list_25 = c.read_holding_registers(3071, 2)
     if regs_list_25:
         papA = [utils.decode_ieee(f) for f in utils.word_list_to_long(regs_list_25)]
-        print("valor de retorno 25 papA" + str(vBC))
+ #       print("valor de retorno 25 papA" + str(vBC))
     regs_list_26 = c.read_holding_registers(3073, 2)
     if regs_list_26:
         papB = [utils.decode_ieee(f) for f in utils.word_list_to_long(regs_list_26)]
@@ -230,91 +231,97 @@ if c.is_open():
     regs_list_68 = c.read_holding_registers(27245, 2)
     if regs_list_68:
         vMinTL = [utils.decode_ieee(f) for f in utils.word_list_to_long(regs_list_68)]
-        print("valor de retorno 68 vMinTL " + str(vMinTL))
-    time.sleep(1)
+#        print("valor de retorno 68 vMinTL " + str(vMinTL))
+   # time.sleep(1)
 
 
-    print("fin de la vuelta  ", relog)
+    #print("fin de la vuelta  ", relog)
 
-
-time.sleep(1)
-relog = relog +1
+tiempo = datetime.now()
+#time.sleep(1)
+#relog = relog +1
 c.close()
-dato = "{\n\t[\n\t{vAB:"+str(vAB)+",\nvBC:"+str(vBC)+",\nvCA:"+str(vCA)+",\nvLT:"+str(vLT)+",\nvAN:"+str(vAN)+",\nvBN:"+str(vBN)+",\nvCN:"+str(vCN)+",\nvNT:"+str(vNT)+",\ncA:"+str(cA)+",\ncB:"+str(cB)+",\ncC:"+str(cC)+",\ncT:"+str(cT)+",\ncMaxA:"+str(cMaxA)+",\ncMaxB:"+str(cMaxB)+",\ncMaxC:"+str(cMaxC)+",\ncMaxT:"+str(cMaxT)+",\npaA:"+str(paA)+",\npaB:"+str(paB)+",\npaC:"+str(paC)+",\npaT:"+str(paT)+",\nprA:"+str(prA)+",\nprB:"+str(prB)+",\nprC:"+str(prC)+",\nprT:"+str(prT)+",\npapA:"+str(papA)+",\npapB:"+str(papB)+",\npapC:"+str(papC)+",\npapT:"+str(papT)+",\nfpA:"+str(fpA)+",\nfpB:"+str(fpB)+",\nfpC:"+str(fpC)+",\nfpT:"+str(fpT)+",\nfpMinA:"+str(fpMinA)+",\nfpMinB:"+str(fpMinB)+",\nfpMinC:"+str(fpMinC)+",\nfpMin:"+str(fpMin)+",\nfr:"+str(fr)+",\nthdvA:"+str(thdvA)+",\nthdvB:"+str(thdvB)+",\nthdvC:"+str(thdvC)+",\nthdvAN:"+str(thdvAN)+",\nthdvBN:"+str(thdvBN)+",\nthdvCN:"+str(thdvCN)+",\nthdcA:"+str(thdcA)+",\nthdcB:"+str(thdcB)+",\nthdcC:"+str(thdcC)+",\nthdvMaxAN:"+str(thdvMaxAN)+",\nthdvMaxBN:"+str(thdvMaxBN)+",\nthdvMaxCN:"+str(thdvMaxCN)+",\nthdvMaxA:"+str(thdcMaxA)+",\nthdvMaxB:"+str(thdcMaxB)+",\nthdvMaxC:"+str(thdcMaxC)+",\nvMaxAN:"+str(vMaxAN)+",\nvMaxBN:"+str(vMaxBN)+",\nvMaxCN:"+str(vMaxCN)+",\nvMaxTLN:"+str(vMaxTLN)+",\nvMaxAB:"+str(vMaxAB)+",\nvMaxBC:"+str(vMaxBC)+",\nvMaxCA:"+str(vMaxCA)+",\nvMaxTL:"+str(vMaxTL)+",\nvMinAN:"+str(vMinAN)+",\nvMinBN:"+str(vMinBN)+",\nvMinCN:"+str(vMinCN)+",\nvMinTLN:"+str(vMinTLN)+",\nvMinAB:"+str(vMinAB)+",\nvMinBC:"+str(vMinBC)+",\nvMinCA:"+str(vMinCA)+",\nvMinTL:"+str(vMinTL)+"}\n]\n}"
+#dato = "{\n\t[\n\t{vAB:"+str(vAB)+",\nvBC:"+str(vBC)+",\nvCA:"+str(vCA)+",\nvLT:"+str(vLT)+",\nvAN:"+str(vAN)+",\nvBN:"+str(vBN)+",\nvCN:"+str(vCN)+",\nvNT:"+str(vNT)+",\ncA:"+str(cA)+",\ncB:"+str(cB)+",\ncC:"+str(cC)+",\ncT:"+str(cT)+",\ncMaxA:"+str(cMaxA)+",\ncMaxB:"+str(cMaxB)+",\ncMaxC:"+str(cMaxC)+",\ncMaxT:"+str(cMaxT)+",\npaA:"+str(paA)+",\npaB:"+str(paB)+",\npaC:"+str(paC)+",\npaT:"+str(paT)+",\nprA:"+str(prA)+",\nprB:"+str(prB)+",\nprC:"+str(prC)+",\nprT:"+str(prT)+",\npapA:"+str(papA)+",\npapB:"+str(papB)+",\npapC:"+str(papC)+",\npapT:"+str(papT)+",\nfpA:"+str(fpA)+",\nfpB:"+str(fpB)+",\nfpC:"+str(fpC)+",\nfpT:"+str(fpT)+",\nfpMinA:"+str(fpMinA)+",\nfpMinB:"+str(fpMinB)+",\nfpMinC:"+str(fpMinC)+",\nfpMin:"+str(fpMin)+",\nfr:"+str(fr)+",\nthdvA:"+str(thdvA)+",\nthdvB:"+str(thdvB)+",\nthdvC:"+str(thdvC)+",\nthdvAN:"+str(thdvAN)+",\nthdvBN:"+str(thdvBN)+",\nthdvCN:"+str(thdvCN)+",\nthdcA:"+str(thdcA)+",\nthdcB:"+str(thdcB)+",\nthdcC:"+str(thdcC)+",\nthdvMaxAN:"+str(thdvMaxAN)+",\nthdvMaxBN:"+str(thdvMaxBN)+",\nthdvMaxCN:"+str(thdvMaxCN)+",\nthdvMaxA:"+str(thdcMaxA)+",\nthdvMaxB:"+str(thdcMaxB)+",\nthdvMaxC:"+str(thdcMaxC)+",\nvMaxAN:"+str(vMaxAN)+",\nvMaxBN:"+str(vMaxBN)+",\nvMaxCN:"+str(vMaxCN)+",\nvMaxTLN:"+str(vMaxTLN)+",\nvMaxAB:"+str(vMaxAB)+",\nvMaxBC:"+str(vMaxBC)+",\nvMaxCA:"+str(vMaxCA)+",\nvMaxTL:"+str(vMaxTL)+",\nvMinAN:"+str(vMinAN)+",\nvMinBN:"+str(vMinBN)+",\nvMinCN:"+str(vMinCN)+",\nvMinTLN:"+str(vMinTLN)+",\nvMinAB:"+str(vMinAB)+",\nvMinBC:"+str(vMinBC)+",\nvMinCA:"+str(vMinCA)+",\nvMinTL:"+str(vMinTL)+"}\n]\n}"
 jsondato = {
-    "vAB": str(vAB),
-    "vBC": str(vBC),
-    "vCA": str(vCA),
-    "vLT": str(vLT),
-    "vAN": str(vAN),
-    "vBN": str(vBN),
-    "vCN": str(vCN),
-    "vNT": str(vNT),
-    "cA": str(cA),
-    "cB": str(cB),
-    "cC": str(cC),
-    "cT": str(cT),
-    "cMaxA": str(cMaxA),
-    "cMaxB": str(cMaxB),
-    "cMaxC": str(cMaxC),
-    "cMaxT": str(cMaxT),
-    "paA": str(paA),
-    "paB": str(paB),
-    "paC": str(paC),
-    "paT": str(paT),
-    "prA": str(prA),
-    "prB": str(prB),
-    "prC": str(prC),
-    "prT": str(prT),
-    "papA": str(papA),
-    "papB": str(papB),
-    "papC": str(papC),
-    "papT": str(papT),
-    "fpA": str(fpA),
-    "fpB": str(fpB),
-    "fpC": str(fpC),
-    "fpT": str(fpT),
-    "fpMinA": str(fpMinA),
-    "fpMinB": str(fpMinB),
-    "fpMinC": str(fpMinC),
-    "fpMin": str(fpMin),
-    "fr": str(fr),
-    "thdvA": str(thdvA),
-    "thdvB": str(thdvB),
-    "thdvC": str(thdvC),
-    "thdvAN": str(thdvAN),
-    "thdvBN": str(thdvBN),
-    "thdvCN": str(thdvCN),
-    "thdcA": str(thdcA),
-    "thdcB": str(thdcB),
-    "thdcC": str(thdcC),
-    "thdvMaxAN": str(thdvMaxAN),
-    "thdvMaxBN": str(thdvMaxBN),
-    "thdvMaxCN": str(thdvMaxCN),
-    "thdvMaxA": str(thdcMaxA),
-    "thdvMaxB": str(thdcMaxB),
-    "thdvMaxC": str(thdcMaxC),
-    "vMaxAN": str(vMaxAN),
-    "vMaxBN": str(vMaxBN),
-    "vMaxCN": str(vMaxCN),
-    "vMaxTLN": str(vMaxTLN),
-    "vMaxAB": str(vMaxAB),
-    "vMaxBC": str(vMaxBC),
-    "vMaxCA": str(vMaxCA),
-    "vMaxTL": str(vMaxTL),
-    "vMinAN": str(vMinAN),
-    "vMinBN": str(vMinBN),
-    "vMinCN": str(vMinCN),
-    "vMinTLN": str(vMinTLN),
-    "vMinAB": str(vMinAB),
-    "vMinBC": str(vMinBC),
-    "vMinCA": str(vMinCA),
-    "vMinTL": str(vMinTL)
+    "packageIniId": 1,
+    "packageFinId": 10,
+    "data": [
+        {
+            "tagId": "882291X32",
+            "eventdatetime": str(tiempo),
+            "vAB": str(vAB),
+            "vBC": str(vBC),
+            "vCA": str(vCA),
+            "vLT": str(vLT),
+            "vAN": str(vAN),
+            "vBN": str(vBN),
+            "vCN": str(vCN),
+            "vNT": str(vNT),
+            "cA": str(cA),
+            "cB": str(cB),
+            "cC": str(cC),
+            "cT": str(cT),
+            "cMaxA": str(cMaxA),
+            "cMaxB": str(cMaxB),
+            "cMaxC": str(cMaxC),
+            "cMaxT": str(cMaxT),
+            "paA": str(paA),
+            "paB": str(paB),
+            "paC": str(paC),
+            "paT": str(paT),
+            "prA": str(prA),
+            "prB": str(prB),
+            "prC": str(prC),
+            "prT": str(prT),
+            "papA": str(papA),
+            "papB": str(papB),
+            "papC": str(papC),
+            "papT": str(papT),
+            "fpA": str(fpA),
+            "fpB": str(fpB),
+            "fpC": str(fpC),
+            "fpT": str(fpT),
+            "fpMinA": str(fpMinA),
+            "fpMinB": str(fpMinB),
+            "fpMinC": str(fpMinC),
+            "fpMin": str(fpMin),
+            "fr": str(fr),
+            "thdvA": str(thdvA),
+            "thdvB": str(thdvB),
+            "thdvC": str(thdvC),
+            "thdvAN": str(thdvAN),
+            "thdvBN": str(thdvBN),
+            "thdvCN": str(thdvCN),
+            "thdcA": str(thdcA),
+            "thdcB": str(thdcB),
+            "thdcC": str(thdcC),
+            "thdvMaxAN": str(thdvMaxAN),
+            "thdvMaxBN": str(thdvMaxBN),
+            "thdvMaxCN": str(thdvMaxCN),
+            "thdvMaxA": str(thdcMaxA),
+            "thdvMaxB": str(thdcMaxB),
+            "thdvMaxC": str(thdcMaxC),
+            "vMaxAN": str(vMaxAN),
+            "vMaxBN": str(vMaxBN),
+            "vMaxCN": str(vMaxCN),
+            "vMaxTLN": str(vMaxTLN),
+            "vMaxAB": str(vMaxAB),
+            "vMaxBC": str(vMaxBC),
+            "vMaxCA": str(vMaxCA),
+            "vMaxTL": str(vMaxTL),
+            "vMinAN": str(vMinAN),
+            "vMinBN": str(vMinBN),
+            "vMinCN": str(vMinCN),
+            "vMinTLN": str(vMinTLN),
+            "vMinAB": str(vMinAB),
+            "vMinBC": str(vMinBC),
+            "vMinCA": str(vMinCA),
+            "vMinTL": str(vMinTL)
         }
+    ]
+}
 
-
-
-jsonTo = json.dumps(jsondato)
+jsonTo = json.dumps(jsondato) # implementacion de formato json
 def on_connect(client, userdata, flags, rc):
     print("codigo funcionando:" + str(rc))  # topic entrada
 def on_message(client, userdata, msg):
@@ -339,12 +346,12 @@ client.connect("sener.ciateq.net.mx", 4001, 60)
 client.subscribe("/BROKER/DATA/H-M999")  # esta linea de codigo hace funcionar el on_message
 client.loop_start()
 
-client.publish("/BROKER/DATA/H-M999", jsonTo)
-time.sleep(1)
+client.publish("/BROKER/DATA/H-M999",jsonTo) #envio de datos a servidor
+time.sleep(2)
 client.loop_stop()
 
 client.disconnect()
 #print(jsonTo)
 
-print("{\n\t[\n\t{vAB:"+str(vAB)+",\nvBC:"+str(vBC)+",\nvCA:"+str(vCA)+",\nvLT:"+str(vLT)+",\nvAN:"+str(vAN)+",\nvBN:"+str(vBN)+",\nvCN:"+str(vCN)+",\nvNT:"+str(vNT)+",\ncA:"+str(cA)+",\ncB:"+str(cB)+",\ncC:"+str(cC)+",\ncT:"+str(cT)+",\ncMaxA:"+str(cMaxA)+",\ncMaxB:"+str(cMaxB)+",\ncMaxC:"+str(cMaxC)+",\ncMaxT:"+str(cMaxT)+",\npaA:"+str(paA)+",\npaB:"+str(paB)+",\npaC:"+str(paC)+",\npaT:"+str(paT)+",\nprA:"+str(prA)+",\nprB:"+str(prB)+",\nprC:"+str(prC)+",\nprT:"+str(prT)+",\npapA:"+str(papA)+",\npapB:"+str(papB)+",\npapC:"+str(papC)+",\npapT:"+str(papT)+",\nfpA:"+str(fpA)+",\nfpB:"+str(fpB)+",\nfpC:"+str(fpC)+",\nfpT:"+str(fpT)+",\nfpMinA:"+str(fpMinA)+",\nfpMinB:"+str(fpMinB)+",\nfpMinC:"+str(fpMinC)+",\nfpMin:"+str(fpMin)+",\nfr:"+str(fr)+",\nthdvA:"+str(thdvA)+",\nthdvB:"+str(thdvB)+",\nthdvC:"+str(thdvC)+",\nthdvAN:"+str(thdvAN)+",\nthdvBN:"+str(thdvBN)+",\nthdvCN:"+str(thdvCN)+",\nthdcA:"+str(thdcA)+",\nthdcB:"+str(thdcB)+",\nthdcC:"+str(thdcC)+",\nthdvMaxAN:"+str(thdvMaxAN)+",\nthdvMaxBN:"+str(thdvMaxBN)+",\nthdvMaxCN:"+str(thdvMaxCN)+",\nthdvMaxA:"+str(thdcMaxA)+",\nthdvMaxB:"+str(thdcMaxB)+",\nthdvMaxC:"+str(thdcMaxC)+",\nvMaxAN:"+str(vMaxAN)+",\nvMaxBN:"+str(vMaxBN)+",\nvMaxCN:"+str(vMaxCN)+",\nvMaxTLN:"+str(vMaxTLN)+",\nvMaxAB:"+str(vMaxAB)+",\nvMaxBC:"+str(vMaxBC)+",\nvMaxCA:"+str(vMaxCA)+",\nvMaxTL:"+str(vMaxTL)+",\nvMinAN:"+str(vMinAN)+",\nvMinBN:"+str(vMinBN)+",\nvMinCN:"+str(vMinCN)+",\nvMinTLN:"+str(vMinTLN)+",\nvMinAB:"+str(vMinAB)+",\nvMinBC:"+str(vMinBC)+",\nvMinCA:"+str(vMinCA)+",\nvMinTL:"+str(vMinTL)+"}\n]\n}")
-print(dato)
+#print("{\n\t[\n\t{vAB:"+str(vAB)+",\nvBC:"+str(vBC)+",\nvCA:"+str(vCA)+",\nvLT:"+str(vLT)+",\nvAN:"+str(vAN)+",\nvBN:"+str(vBN)+",\nvCN:"+str(vCN)+",\nvNT:"+str(vNT)+",\ncA:"+str(cA)+",\ncB:"+str(cB)+",\ncC:"+str(cC)+",\ncT:"+str(cT)+",\ncMaxA:"+str(cMaxA)+",\ncMaxB:"+str(cMaxB)+",\ncMaxC:"+str(cMaxC)+",\ncMaxT:"+str(cMaxT)+",\npaA:"+str(paA)+",\npaB:"+str(paB)+",\npaC:"+str(paC)+",\npaT:"+str(paT)+",\nprA:"+str(prA)+",\nprB:"+str(prB)+",\nprC:"+str(prC)+",\nprT:"+str(prT)+",\npapA:"+str(papA)+",\npapB:"+str(papB)+",\npapC:"+str(papC)+",\npapT:"+str(papT)+",\nfpA:"+str(fpA)+",\nfpB:"+str(fpB)+",\nfpC:"+str(fpC)+",\nfpT:"+str(fpT)+",\nfpMinA:"+str(fpMinA)+",\nfpMinB:"+str(fpMinB)+",\nfpMinC:"+str(fpMinC)+",\nfpMin:"+str(fpMin)+",\nfr:"+str(fr)+",\nthdvA:"+str(thdvA)+",\nthdvB:"+str(thdvB)+",\nthdvC:"+str(thdvC)+",\nthdvAN:"+str(thdvAN)+",\nthdvBN:"+str(thdvBN)+",\nthdvCN:"+str(thdvCN)+",\nthdcA:"+str(thdcA)+",\nthdcB:"+str(thdcB)+",\nthdcC:"+str(thdcC)+",\nthdvMaxAN:"+str(thdvMaxAN)+",\nthdvMaxBN:"+str(thdvMaxBN)+",\nthdvMaxCN:"+str(thdvMaxCN)+",\nthdvMaxA:"+str(thdcMaxA)+",\nthdvMaxB:"+str(thdcMaxB)+",\nthdvMaxC:"+str(thdcMaxC)+",\nvMaxAN:"+str(vMaxAN)+",\nvMaxBN:"+str(vMaxBN)+",\nvMaxCN:"+str(vMaxCN)+",\nvMaxTLN:"+str(vMaxTLN)+",\nvMaxAB:"+str(vMaxAB)+",\nvMaxBC:"+str(vMaxBC)+",\nvMaxCA:"+str(vMaxCA)+",\nvMaxTL:"+str(vMaxTL)+",\nvMinAN:"+str(vMinAN)+",\nvMinBN:"+str(vMinBN)+",\nvMinCN:"+str(vMinCN)+",\nvMinTLN:"+str(vMinTLN)+",\nvMinAB:"+str(vMinAB)+",\nvMinBC:"+str(vMinBC)+",\nvMinCA:"+str(vMinCA)+",\nvMinTL:"+str(vMinTL)+"}\n]\n}")
+#print(dato)
